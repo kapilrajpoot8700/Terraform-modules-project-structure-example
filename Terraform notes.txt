@@ -38,9 +38,56 @@ resource "aws_instance" "vm_1" {
 		Name = "LinuxVM"
 	}
 }
+________________________
+Terraform Commands
+_________________________
 
-terraform init->terraform validate->terraform fmt->terraform plan->terraform apply or terraform apply --auto-approve--> terraform destory --auto-approve
+# terraform init - Downloads the required provider plugins.
 
+# terraform validate - Checks the configuration files for syntax and logical errors.
+
+# terraform fmt - Formats the Terraform configuration files.
+
+# terraform plan - Creates an execution plan to show what changes Terraform will make.
+
+# terraform apply or terraform apply --auto-approve - Applies the planned changes to create/update resources.
+
+Note: --auto-approve skips the interactive approval step.
+
+# terraform destroy --auto-approve - Destroys all resources managed by Terraform without asking for confirmation.
+
+Variables Creation Syntax:
+_____________________________________
+
+variable "name" {
+    description = "Describe the variable" (Optional)
+    type = "data type of the variable" (Optional)
+    default  = "variable value"
+}
+
+
+
+Types of variables in terraform:
+_______________________________________
+
+		a) Input Variables
+
+		b) Output Variables
+
+-> Input variables supply values to the terraform script.
+
+	Example : ami, instance_type etc
+
+-> Output variables get the values from terraform script after script execution.
+
+		Example -1 :  create EC2 VM then print ec2-vm public ip
+
+		Example -2 :  create S3 bucket then print bucket details
+
+		Example -3 :  create RDS then print DB endpoint
+
+		Example -4 :  create IAM user then print IAM user info
+___________________________________________
 
 Example 2: Input / Output Variables in terraform
 
@@ -130,8 +177,8 @@ output "instance_ids" {
 }
 
 
-Modules In Terraform (Project)
-___________________________________
+Modules In Terraform (Project) will help developer organize the code for easy maintability of project
+______________________________________________________________________________________________________
 
 Step-1 : Create Project directory
 
@@ -187,3 +234,37 @@ output "test_vm_private_ip" {
 }
 
 Note: here a1 and a2 are ouput variables declared in ec2 module ouputs.tf file
+
+
+Project Environments:
+_____________________________
+
+# Dev - Used for development purpose (t2.micro)
+# QA or Testing or SIT - Used for Testing purpose (t2.micro)
+# UAT - Used for acceptance testing (t2.medium)
+# Staging or Pilot or Pre Prod - Environment used for pre production testing (t2.large)
+# Prod - Live environment for application (t2.xlarge)
+
+Note: 
+Non-PROD Env are DEV, SIT, UAT and PILOT
+
+PROD Env  - Production Server
+_______________________________________________________________________________________________________
+In order to reuse terraform script for multiple enviroment creation we create multiple variables.tf files         
+
+inputs-dev.tf → Development (DEV)
+inputs-sit.tf → System Integration Testing (SIT)
+inputs-uat.tf → User Acceptance Testing (UAT)
+inputs-pilot.tf → Pilot environment
+inputs-prod.tf → Production (PROD)
+
+To supply these vaaribale values from required file we will use the commands as mentioned below
+
+# For DEV env
+$ terraform apply --var-file=inputs-dev.tf
+
+# For PROD env
+$ terraform apply --var-file=inputs-prod.tf
+
+
+
