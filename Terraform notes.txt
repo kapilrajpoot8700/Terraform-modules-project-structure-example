@@ -269,10 +269,26 @@ $ terraform apply --var-file=inputs-prod.tf
 What is the use of workspace in terraform?
 ___________________________________________________________________________________________________________
 In Terraform, workspaces allow you to manage multiple environments (like dev, staging, and prod) using the same Terraform configuration but different state files.
+When we use Terraform Workspaces, Terraform maintains a separate state file for each workspace (environment). This allows executing the same script for multiple environments without modifying the code.
 
 Note: 
 **terraform apply** creates resources and writes their details to terraform.tfstate
 keeps details of actual resources created in the cloud and helps us to avoid duplicate resources creation
 .tf file is read automatically
 .tfvars we should read this file manually
+
+Workspace commands:
+_________________________________________________________________
+$ terraform workspace show       # Show the current workspace
+
+$ terraform workspace new dev    # Create a new workspace for 'dev'
+$ terraform workspace new qa     # Create a new workspace for 'qa'
+$ terraform workspace new uat    # Create a new workspace for 'uat'
+$ terraform workspace new prod   # Create a new workspace for 'prod'
+
+$ terraform workspace list       # List all available workspaces
+
+$ terraform workspace select dev # Switch to 'dev' workspace
+
+
 
