@@ -273,4 +273,6 @@ In Terraform, workspaces allow you to manage multiple environments (like dev, st
 Note: 
 **terraform apply** creates resources and writes their details to terraform.tfstate
 keeps details of actual resources created in the cloud and helps us to avoid duplicate resources creation
+.tf file is read automatically
+.tfvars we should read this file manually
 
