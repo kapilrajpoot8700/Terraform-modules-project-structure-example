@@ -291,4 +291,29 @@ $ terraform workspace list       # List all available workspaces
 $ terraform workspace select dev # Switch to 'dev' workspace
 
 
+1. What is terraform taint? (Deprecated)
+The terraform taint command was used to mark a resource for forced recreation in the next terraform apply
 
+terraform taint aws_instance.example
+terraform apply
+
+2. Replacing terraform taint (New Approach)
+
+For single resource
+terraform apply -replace="aws_instance.example"
+
+For multiple resource
+terraform apply -replace="aws_instance.example" -replace="aws_s3_bucket.example"
+
+3. What is terraform untaint? (Deprecated)
+The terraform untaint command was used to remove the taint from a resource, preventing its recreation.
+
+terraform untaint aws_instance.example
+
+This removed the taint from aws_instance.example.
+The resource would not be recreated in the next terraform apply.
+
+4. To manually destroy a resource and recreate it:
+
+terraform destroy -target="aws_instance.example"
+terraform apply
